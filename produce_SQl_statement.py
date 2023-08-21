@@ -27,7 +27,7 @@ def data_to_view(select_list, utility_list):
     if "English" in select_list:
         statement += ", english_name AS `English Name`"
     if "Other Regional Spelling" in select_list:
-        statement += ", GROUP_CONCAT(DISTINCT spelling SEPARATOR ', ') AS `Tree Type`"
+        statement += ", GROUP_CONCAT(DISTINCT spelling SEPARATOR ', ') AS `Other Regional Spelling`"
     if "Tree Type" in select_list:
         statement += ",  GROUP_CONCAT(DISTINCT tree_type SEPARATOR ', ') AS `Tree Type`"
     if "Climatic Zone" in select_list:
