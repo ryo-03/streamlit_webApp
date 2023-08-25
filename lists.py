@@ -1,13 +1,13 @@
-english_name_list = ["Apple Ring Acacia", "Egyptian Thorn", "Gum Arabic",
-                    "Umbrella Thorn", "Soapberry Tree", "Franklin-cense Tree", 
-                    "Myrrh Tree", "Common Tug Tree", "Yihib Nut Tree",
-                    "Doum Palm", "Pencil Cedar", "Date Palm", "Toothbrush Tree",
-                    "Tamarind", "Tamarisk", "Spiny Desert Tree", "Chinese Date", 
-                    "Siris Tree", "Neem", "Ironwood", "Whistling Pine", "Red River Gum", 
-                    "African Mahogany", "Ipil-ipil Tree", "Hardbean", "Mesquite", 
-                    "Ghaf", "Algaroba", "Pepper Tree", "Corkwood Tree", "Cashew Nut", 
+english_name_list = ["Apple ring acacia", "Egyptian thorn", "Gum arabic",
+                    "Umbrella thorn", "Soapberry tree", "Franklin-cense tree", 
+                    "Myrrh tree", "Common tug tree", "Yihib nut tree",
+                    "Doum palm", "Pencil cedar", "Date palm", "Toothbrush tree",
+                    "Tamarind", "Tamarisk", "Spiny desert tree", "Chinese date", 
+                    "Siris tree", "Neem", "Ironwood", "Whistling pine", "Red river gum", 
+                    "African mahogany", "Ipil-ipil tree", "Hardbean", "Mesquite", 
+                    "Ghaf", "Algaroba", "Pepper tree", "Corkwood tree", "Cashew nut", 
                     "Soursop", "Sweetsop", "Sugarapple", "Papaya", "Lime", "Grapefruit", 
-                    "Coconut", "Mango", "Guava", "Indian Almond"]
+                    "Coconut", "Mango", "Guava", "Indian almond"]
 
 somali_name_list = ["Garbi", "Galool", "Tugaar",
                     "Cadaad", "Qurac", "Quud", "Yagcar", "Dheddin",
@@ -24,7 +24,7 @@ arabic_name_list = ["Haraz", "Sunt", "Hashab, Alloba",
                "Kafur", "Kaya", "Ghaf", "Filfilrafie", "Sisaban", "Mawaleh",
                 "Bondog", "Mango", "Guwafa", "Luze"]
         
-tree_type_list = ["Somali tree", "Foreign Tree", "Foreign fruit tree"]
+tree_type_list = ["Somali tree", "Foreign tree", "Foreign fruit tree"]
 
 climatic_zone_list = ["Very Dry", "Lowland Dry", "Highland Dry", "Lowland Wet", "Highland Wet"]
 

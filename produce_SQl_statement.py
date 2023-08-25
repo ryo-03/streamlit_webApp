@@ -1,6 +1,51 @@
 def order_statement():
     return ' ORDER BY tree.id'
 
+def having_statement(query_dict):
+    query = ""
+    having = 0
+    AND = 0
+
+    if query_dict["rainfall"]:
+        if having == 0:
+            query += " HAVING"
+            having = 1
+        if AND == 1:
+            query += " AND"
+        else: 
+            AND = 1
+        query += " MIN(rainfall_min) <= {} AND MAX(rainfall_max) >= {}"\
+            .format(query_dict["rainfall"][0], query_dict["rainfall"][1])
+    
+    if query_dict["altitude"]:
+        if having == 0:
+            query += " HAVING"
+            having = 1
+        if AND == 1:
+            query += " AND"
+        else: 
+            AND = 1
+        query += " MIN(altitude_min) <= {} AND MAX(altitude_max) >= {}"\
+            .format(query_dict["altitude"][0], query_dict["altitude"][1])
+
+    utility_list = query_dict["utilities"]
+    # query += " AND MIN(temperture_min) <= {} AND MAX(altitude_max) >= {}".format(altitude_range[0], altitude_range[1])
+    if query_dict["utilities"]:
+        if having == 0:
+            query += " HAVING"
+            having = 1
+        if AND == 1:
+            query += " AND"
+        else: 
+            AND = 1
+        for i in range(len(utility_list)):
+            if i > 0:
+                query += " AND"
+            query += " utility_list LIKE '%{}%'".format(utility_list[i])
+    
+
+    return query
+
 def group_statement():
     return ' GROUP BY tree.id'
 
@@ -19,8 +64,64 @@ def where_statement(query_dict):
             OR = 1
         for i in range(len(li)):
             if i > 0:
-                q += " OR"
+                query += " OR"
             query += " english_name LIKE '%{}%'".format(li[i])
+
+    if query_dict["somali"]:
+        li = query_dict["somali"]
+        if where == 0:
+            query += " WHERE"
+            where = 1
+        if OR == 1:
+            query += " OR"
+        else:
+            OR = 1
+        for i in range(len(li)):
+            if i > 0:
+                query += " OR"
+            query += " somali_name LIKE '%{}%'".format(li[i])
+
+    if query_dict["arabic"]:
+        li = query_dict["arabic"]
+        if where == 0:
+            query += " WHERE"
+            where = 1
+        if OR == 1:
+            query += " OR"
+        else:
+            OR = 1
+        for i in range(len(li)):
+            if i > 0:
+                query += " OR"
+            query += " arabic_name LIKE '%{}%'".format(li[i])
+
+    if query_dict["type"]:
+        li = query_dict["type"]
+        if where == 0:
+            query += " WHERE"
+            where = 1
+        if OR == 1:
+            query += " OR"
+        else:
+            OR = 1
+        for i in range(len(li)):
+            if i > 0:
+                query += " OR"
+            query += " tree_type LIKE '%{}%'".format(li[i])
+    
+    if query_dict["climatic"]:
+        li = query_dict["climatic"]
+        if where == 0:
+            query += " WHERE"
+            where = 1
+        if OR == 1:
+            query += " OR"
+        else:
+            OR = 1
+        for i in range(len(li)):
+            if i > 0:
+                query += " OR"
+            query += " climatic_zone LIKE '%{}%'".format(li[i])
 
     return query
 
@@ -68,7 +169,7 @@ def data_to_view(select_list, utility_list):
         statement += """, STRING_AGG(DISTINCT (CASE 
                             WHEN utility_usage = 1 THEN utility_name 
                             WHEN utility_usage = 2 THEN UPPER(utility_name)
-                            END), ', ') as "Usage" """
+                            END), ', ') """
     return statement
 
 
@@ -80,6 +181,7 @@ def produce_statement(query_dict, select_list):
     statement += join_statement()
     statement += where_statement(query_dict)
     statement += group_statement()
+    statement += having_statement(query_dict)
 
     statement += order_statement()
     print(statement)
