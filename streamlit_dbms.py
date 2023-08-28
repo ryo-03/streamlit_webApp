@@ -13,7 +13,11 @@ conn = init_connection()
 @st.cache_data(ttl=600)
 def run_query(query):
     with conn.cursor() as cur:
-        cur.execute(query)
+        try:
+            cur.execute(query)
+        except Exception as e:
+            print(f'Error {e}')
+            conn.rollback()
         return cur.fetchall()
 
 
@@ -101,6 +105,7 @@ def search_page():
                 st.write(k,v)
         st.write(query_statement)
         rows = run_query(query_statement)
+
         st.table(rows)
 
 
