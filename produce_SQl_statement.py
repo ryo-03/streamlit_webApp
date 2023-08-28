@@ -6,6 +6,20 @@ def having_statement(query_dict):
     having = 0
     AND = 0
 
+    if query_dict["climatic"]:
+        li = query_dict["climatic"]
+        if having == 0:
+            query += " HAVING"
+            having = 1
+        if AND == 1:
+            query += " AND"
+        else: 
+            AND = 1
+        for i in range(len(li)):
+            if i > 0:
+                query += " AND"
+            query += " STRING_AGG(DISTINCT climatic_zone, ', ') LIKE '%{}%'".format(li[i])
+        
     if query_dict["rainfall"]:
         if having == 0:
             query += " HAVING"
@@ -108,20 +122,7 @@ def where_statement(query_dict):
             if i > 0:
                 query += " OR"
             query += " tree_type LIKE '%{}%'".format(li[i])
-    
-    if query_dict["climatic"]:
-        li = query_dict["climatic"]
-        if where == 0:
-            query += " WHERE"
-            where = 1
-        if OR == 1:
-            query += " OR"
-        else:
-            OR = 1
-        for i in range(len(li)):
-            if i > 0:
-                query += " OR"
-            query += " climatic_zone LIKE '%{}%'".format(li[i])
+
 
     return query
 
