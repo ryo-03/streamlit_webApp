@@ -20,7 +20,7 @@ def run_query(query):
         #     print(f'Error {e}')
         #     conn.rollback()
         # return cur.fetchall()
-    return cur.fetchall()
+        return cur.fetchall()
 
 
 def search_page():
