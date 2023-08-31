@@ -41,9 +41,19 @@ def having_statement(query_dict):
             AND = 1
         query += " MIN(altitude_min) <= {} AND MAX(altitude_max) >= {}"\
             .format(query_dict["altitude"][0], query_dict["altitude"][1])
+        
+    if query_dict["temperature"]:
+        if having == 0:
+            query += " HAVING"
+            having = 1
+        if AND == 1:
+            query += " AND"
+        else: 
+            AND = 1
+        query += " MIN(temperature_min) <= {} AND MAX(temperature_max) >= {}"\
+            .format(query_dict["temperature"][0], query_dict["temperature"][1])
 
     utility_list = query_dict["utilities"]
-    # query += " AND MIN(temperture_min) <= {} AND MAX(altitude_max) >= {}".format(altitude_range[0], altitude_range[1])
     if query_dict["utilities"]:
         if having == 0:
             query += " HAVING"
@@ -166,6 +176,10 @@ def data_to_view(select_list, utility_list):
         statement += ', MIN(altitude_min) AS "Lowest Altitude"'
     if "Highest Altitude" in select_list:
         statement += ', MAX(altitude_max) AS "Highest Altitude"'
+    if "Lowest Temperature" in select_list:
+        statement += ', MIN(temperature_min) AS "Lowest Temperature"'
+    if "Highest Temperature" in select_list:
+        statement += ', MAX(temperature_max) AS "Highest Temperature"'  
     if "Utilities" in select_list or utility_list:
         statement += """, STRING_AGG(DISTINCT (CASE 
                             WHEN utility_usage = 1 THEN utility_name 

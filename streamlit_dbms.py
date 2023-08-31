@@ -88,14 +88,14 @@ def search_page():
             15, 30, (20, 25)
         )
         query_dict["temperature"] = list(search_temperature)
-        st.write("If you don't want to limit the range, slide the points to each end")
+        st.write(f"I want a tree that can live below :green[{search_temperature[0]} degrees]\
+                 but  also above :green[{search_temperature[1]} degrees]")
         
 
     select_list = st.multiselect(
         'Select the Data You Want to See',
         lists.select_list
     )
-    st.write(query_dict)
 
     if st.button('Search!'):
             

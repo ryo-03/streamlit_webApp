@@ -37,5 +37,6 @@ utilities_list = ["Toothbrush", "Toolhandles", "Timber", "Tannins",
 
 select_list = ["Somali", "Arabic", "English", "Other Regional Spelling", "Tree Type",
             "Climatic Zone","Minimum Rainfall", "Maximum Rainfall", 
-            "Lowest Altitude", "Highest Altitude", "Utilities"]
+            "Lowest Altitude", "Highest Altitude", "Lowest Temperature", 
+            "Highest Temperature", "Utilities"]
 
