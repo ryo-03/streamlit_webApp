@@ -1,39 +1,51 @@
-english_name_list = ["Apple ring acacia", "Egyptian thorn", "Gum arabic",
-                    "Umbrella thorn", "Soapberry tree", "Franklin-cense tree", 
-                    "Myrrh tree", "Common tug tree", "Yihib nut tree",
-                    "Doum palm", "Pencil cedar", "Date palm", "Toothbrush tree",
-                    "Tamarind", "Tamarisk", "Spiny desert tree", "Chinese date", 
-                    "Siris tree", "Neem", "Ironwood", "Whistling pine", "Red river gum", 
-                    "African mahogany", "Ipil-ipil tree", "Hardbean", "Mesquite", 
-                    "Ghaf", "Algaroba", "Pepper tree", "Corkwood tree", "Cashew nut", 
-                    "Soursop", "Sweetsop", "Sugarapple", "Papaya", "Lime", "Grapefruit", 
-                    "Coconut", "Mango", "Guava", "Indian almond"]
+import streamlit as st
+import psycopg2
 
-somali_name_list = ["Garbi", "Galool", "Tugaar",
-                    "Cadaad", "Qurac", "Quud", "Yagcar", "Dheddin",
-                    "Dhamas", "Gud", "Mareer", "Garas", "Baar", "Dayib",
-                    "Timir", "Caday", "Raqay", "Dhuur", "Hareeri", "Xarar", "Gob",
-                    "Geed hindi", "Boordi", "Shawri", "Baxarasaaf", "Mahogony",
-                    "Geed walaayo", "Mirimiri", "Bibbo", "Anuune (weyn)", "Anuune (yare)",
-                    "Babbaay", "Liin", "Bombelmo", "Naarajiin", "Cambe", "Seytuun", "Beydaan"]
+@st.cache_resource
+def init_connection():
+    return psycopg2.connect(**st.secrets["postgres"])
+conn = init_connection()
 
-arabic_name_list = ["Haraz", "Sunt", "Hashab, Alloba",
-               "Seyal", "Heglig (Lalob)",
-               "Balsam", "Mikah", "El Dom", "Ar Ar", "Nakl-el-Balah",
-               "Araq", "Abai", "Atel, Tarfah", "Nabk", "Dakn-el-Bashna",
-               "Kafur", "Kaya", "Ghaf", "Filfilrafie", "Sisaban", "Mawaleh",
-                "Bondog", "Mango", "Guwafa", "Luze"]
-        
-tree_type_list = ["Somali tree", "Foreign tree", "Foreign fruit tree"]
+@st.cache_data(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        # try:
+        #     cur.execute(query)
+        # except Exception as e:
+        #     print(f'Error {e}')
+        #     conn.rollback()
+        # return cur.fetchall()
+        return cur.fetchall()
+botanical_name_list =[]   
+somali_name_list = []
+arabic_name_list = []
+english_name_list = []
+tree_type_list = []
+climatic_zone_list = []
+utilities_list = []
 
-climatic_zone_list = ["Very Dry", "Lowland Dry", "Highland Dry", "Lowland Wet", "Highland Wet"]
+query = run_query("SELECT * FROM tree")
+for i in query:
+    if [1]:
+        botanical_name_list.append(i[1])
+    if i[2]:
+        somali_name_list.append(i[2])
+    if i[3]:
+        arabic_name_list.append(i[3])
+    if i[4]:
+        english_name_list.append(i[4])
+    if i[5] and i[5] not in tree_type_list:
+        tree_type_list.append(i[5])
 
-utilities_list = ["Toothbrush", "Toolhandles", "Timber", "Tannins", 
-                "Soil Improvent", "Shelterbelt", "Sandune Fixation", 
-                "Poles", "People Shade", "Nitrogen Fixation", "Medicine",
-                "Livestock Shade", "Live Fencing", "Intercropping", "Insecticide",
-                "Honey", "Hedge", "Gums", "Fuel", "Fruit", "Fodder", "Eddible Leaves", 
-                "Dyes", "Dead Fencing", "Charcoal", "Carving", "Amenity"]
+query = run_query("SELECT * FROM climatic")
+for i in query:
+    climatic_zone_list.append(i[1])
+
+query = run_query("SELECT * FROM utility")
+for i in query:
+    utilities_list.append(i[1])
+
 
 select_list = ["Somali", "Arabic", "English", "Other Regional Spelling", "Tree Type",
             "Climatic Zone","Minimum Rainfall", "Maximum Rainfall", 

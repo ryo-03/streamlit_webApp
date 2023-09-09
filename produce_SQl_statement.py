@@ -1,3 +1,52 @@
+def produce_add_utility_statement(utility_usage_dict):
+
+    statement = ""
+    utility_dict = {"Toothbrushes": 1, "Toolhandles": 2, "Timber": 3, "Tannins": 4, "Soil Improvement": 5,
+                    "Shelterbelt": 6, "Sandune Fixation": 7, "Poles": 8, "People Shade": 9, 
+                    "Nitrogen Fixation": 10, "Medicine": 11, "Livestock Shade": 12, "Live Fencing": 13,
+                    "Intercropping": 14, "Insecticide": 15, "Honey": 16, "Hedge": 17, "Gums": 18, 
+                    "Fuel": 19, "Fruit": 20, "Fodder": 21, "Edible Leaves": 22, "Dyes": 23, 
+                    "Dead Fencing": 24, "Charcoal": 25, "Carving": 26, "Amenity": 27}
+    for k,v in utility_usage_dict.items():
+
+        statement += "INSERT INTO utility_usage VALUES ((SELECT MAX(id)+1 FROM utility_usage), "\
+            "(SELECT MAX(id) FROM tree), {}, {}); ".format(utility_dict[k], v)
+    return statement
+
+def produce_add_climatic_statement(climatic_list):
+    statement = ""
+    climatic_dict = {"Very Dry": 1, "Lowland Dry": 2, 
+                     "Highland Dry": 3, "Lowland Wet": 4, "Highland Wet": 5}
+    for i in climatic_list:
+        statement += "INSERT INTO climatic_zone VALUES ((SELECT MAX(id)+1 FROM climatic_zone), "\
+        " {}, (SELECT MAX(id) FROM tree)); ".format(climatic_dict[i])
+
+    return statement 
+
+def produce_add_statement(query_dict):
+
+    insert_statement = "INSERT INTO tree (id, botanical_name"
+    values_statement = "VALUES((SELECT MAX(id)+1 FROM tree), '{}'".format(query_dict["botanical"])
+    if "somali" in query_dict:
+        insert_statement += ", somali_name"
+        values_statement += ", '{}'".format(query_dict["somali"])
+    if "arabic" in query_dict:
+        insert_statement += ", arabic_name"
+        values_statement += ", '{}'".format(query_dict["arabic"])
+
+    if "english" in query_dict:
+        insert_statement += ", english_name"
+        values_statement += ", '{}'".format(query_dict["english"])
+
+    if "tree_type" in query_dict:
+        insert_statement += ", tree_type"
+        values_statement += ", '{}'".format(query_dict["tree_type"])
+
+    insert_statement += ") "
+    values_statement += "); "
+
+    return insert_statement + values_statement
+
 def order_statement():
     return ' ORDER BY tree.id'
 
@@ -189,7 +238,7 @@ def data_to_view(select_list, utility_list):
 
 
 
-def produce_statement(query_dict, select_list):
+def produce_search_statement(query_dict, select_list):
     statement = ""
 
     statement += data_to_view(select_list, query_dict["utilities"])
@@ -203,3 +252,5 @@ def produce_statement(query_dict, select_list):
     
 
     return statement
+
+
