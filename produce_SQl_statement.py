@@ -1,3 +1,10 @@
+
+
+
+#################### FUNCTIONS USED FOR ADD FUNCTIONALITY ########################
+
+
+
 def produce_add_utility_statement(utility_usage_dict):
 
     statement = ""
@@ -8,9 +15,9 @@ def produce_add_utility_statement(utility_usage_dict):
                     "Fuel": 19, "Fruit": 20, "Fodder": 21, "Edible Leaves": 22, "Dyes": 23, 
                     "Dead Fencing": 24, "Charcoal": 25, "Carving": 26, "Amenity": 27}
     for k,v in utility_usage_dict.items():
-
-        statement += "INSERT INTO utility_usage VALUES ((SELECT MAX(id)+1 FROM utility_usage), "\
-            "(SELECT MAX(id) FROM tree), {}, {}); ".format(utility_dict[k], v)
+        if v != -1:
+            statement += "INSERT INTO utility_usage VALUES ((SELECT MAX(id)+1 FROM utility_usage), "\
+                "(SELECT MAX(id) FROM tree), {}, {}); ".format(utility_dict[k], v)
     return statement
 
 def produce_add_climatic_statement(climatic_list):
@@ -46,6 +53,13 @@ def produce_add_statement(query_dict):
     values_statement += "); "
 
     return insert_statement + values_statement
+
+
+
+
+####################### FUNCTIONS USED FOR SEARCH FUNCTIONALITY ###################
+
+
 
 def order_statement():
     return ' ORDER BY tree.id'
@@ -126,8 +140,8 @@ def where_statement(query_dict):
     query = ""
     where = 0
     OR = 0
-    if query_dict["english"]:
-        li = query_dict["english"]
+    if query_dict["botanical"]:
+        li = query_dict["botanical"]
         if where == 0:
             query += " WHERE"
             where = 1
@@ -138,7 +152,7 @@ def where_statement(query_dict):
         for i in range(len(li)):
             if i > 0:
                 query += " OR"
-            query += " english_name LIKE '%{}%'".format(li[i])
+            query += " botanical_name LIKE '%{}%'".format(li[i])
 
     if query_dict["somali"]:
         li = query_dict["somali"]
@@ -167,6 +181,20 @@ def where_statement(query_dict):
             if i > 0:
                 query += " OR"
             query += " arabic_name LIKE '%{}%'".format(li[i])
+
+    if query_dict["english"]:
+        li = query_dict["english"]
+        if where == 0:
+            query += " WHERE"
+            where = 1
+        if OR == 1:
+            query += " OR"
+        else:
+            OR = 1
+        for i in range(len(li)):
+            if i > 0:
+                query += " OR"
+            query += " english_name LIKE '%{}%'".format(li[i])
 
     if query_dict["type"]:
         li = query_dict["type"]
@@ -233,7 +261,7 @@ def data_to_view(select_list, utility_list):
         statement += """, STRING_AGG(DISTINCT (CASE 
                             WHEN utility_usage = 1 THEN utility_name 
                             WHEN utility_usage = 2 THEN UPPER(utility_name)
-                            END), ', ') """
+                            END), ', ')  AS "Utilities" """
     return statement
 
 
