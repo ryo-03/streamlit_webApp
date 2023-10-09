@@ -243,7 +243,10 @@ def update_page():
         st.write(edited_q)
     
     if st.button("UPDATE!!"):
-
+        query_update_statement = ""
+        table_dict = {"Arabic Name": ["tree", "arabic_name"], "Botanical Name": ["tree","botanical_name"], "English Name": ["tree", "english_name"],
+                      "Somali Name": ["tree", "somali_name"], "Tree Type": ["tree", "tree_type"],
+                      }
         diff = q.compare(edited_q)
         st.write(diff)
         for column in diff:
@@ -251,6 +254,11 @@ def update_page():
             if self_or_other == "other":
                 columnData = diff[column][0]
                 st.write("New " + columnName + ": " + columnData)
+                query_update_statement += produce_SQl_statement.produce_update_statement(tree_to_update, columnName, columnData, table_dict)
+
+        st.markdown('<h6 class="monospace">' + query_update_statement + '</h6s>', unsafe_allow_html=True)
+
+                
     
     
 

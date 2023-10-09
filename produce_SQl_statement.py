@@ -1,4 +1,10 @@
 
+def produce_update_statement(tree_to_update, columnName, columnData, table_dict):
+
+    statement = "UPDATE {} SET {} = '{}' WHERE botanical_name = '{}'; "\
+        .format(table_dict[columnName][0], table_dict[columnName][1], columnData, tree_to_update)
+    
+    return statement
 
 
 #################### FUNCTIONS USED FOR ADD FUNCTIONALITY ########################
